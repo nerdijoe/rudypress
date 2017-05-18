@@ -13,9 +13,17 @@
     <a class="item">
       Messages
     </a>
-    <a class="item">
-      Friends
-    </a>
+    <router-link
+      v-if="is_login"
+      to="articleform"
+      class="ui item"
+      active-class="active"
+      exact
+    >
+      Write new article
+    </router-link>
+
+
     <div class="right menu">
 
       <router-link

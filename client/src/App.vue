@@ -20,11 +20,13 @@ export default {
   },
   methods: {
     ...mapActions([
-      'checkTokenfromLocalStorage'
+      'checkTokenfromLocalStorage',
+      'fetchArticles'
     ])
   },
   created() {
-    this.checkTokenfromLocalStorage();
+    this.checkTokenfromLocalStorage()
+    this.fetchArticles()
   }
 }
 </script>

@@ -4,6 +4,7 @@ import Hello from '@/components/Hello'
 import Home from '@/components/Home'
 import Signin from '@/components/Signin'
 import Signup from '@/components/Signup'
+import ArticleForm from '@/components/ArticleForm'
 
 Vue.use(Router)
 
@@ -28,6 +29,12 @@ export default new Router({
       path: '/signup',
       name: 'Signup',
       component: Signup
+    },
+    {
+      path: '/articleform',
+      name: 'Write',
+      component: ArticleForm
     }
+
   ]
 })

@@ -1,11 +1,13 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import axios from 'axios'
+import router from '../router'
 
 Vue.use(Vuex, axios)
 
 const store = new Vuex.Store({
   state: {
+    router,
     message: "Hello",
     user: {
       _id: null,
@@ -13,7 +15,8 @@ const store = new Vuex.Store({
       username: '',
       token: ''
     },
-    is_login: false
+    is_login: false,
+    articles: []
   },
   getters: {
     getMessage(state) {
@@ -24,6 +27,9 @@ const store = new Vuex.Store({
     },
     getLoginStatus(state) {
       return state.is_login
+    },
+    getArticles(state) {
+      return state.articles
     }
   },
   mutations: {
@@ -48,11 +54,35 @@ const store = new Vuex.Store({
       state.is_login = false
 
       console.log("clearSigninInfo", state.user)
+    },
+    setArticles(state, data) {
+      state.articles = data
+
+      console.log('setArticles', state.articles)
+    },
+    addArticle(state, data) {
+      state.articles.push(data)
+      console.log('addArticle', state.articles)
+    },
+    updateArticle(state, data) {
+      var index = state.articles.findIndex( a => a._id === data._id )
+
+      if(index != 1) {
+        state.articles.splice(index, 1, data)
+      }
+
+    },
+    deleteArticle(state, data) {
+      var index = state.articles.findIndex( a => a._id === data._id )
+
+      if(index != 1) {
+        state.articles.splice(index, 1)
+      }
     }
   },
   actions: {
     userSignin({commit}, user) {
-
+      let self = this
       axios.post('http://localhost:3000/api/users/signin', {
         username: user.username,
         password: user.password
@@ -71,10 +101,10 @@ const store = new Vuex.Store({
         localStorage.setItem('username', response.data.username)
 
         commit('setSigninStuff')
-
       })
       .catch( err => {
         console.log(err)
+        alert('Sign in error')
       })
 
     },
@@ -109,7 +139,76 @@ const store = new Vuex.Store({
 
       commit('clearSigninInfo')
     },
-    fetch
+    fetchArticles({commit}) {
+      axios.get('http://localhost:3000/api/articles')
+      .then( response => {
+        console.log("*** fetchArticles", response.data)
+
+        commit('setArticles', response.data)
+      })
+    },
+    saveArticle({commit}, article) {
+
+      let self = this
+      if(article._id != null) {
+        // update
+        axios.put(`http://localhost:3000/api/articles/${article._id}`, {
+          title: article.title,
+          content: article.content,
+          category: article.category
+        }, {
+          headers: {token: localStorage.token }
+        })
+        .then( response => {
+          console.log("*** updateArticle")
+          console.log(response.data)
+
+          commit('updateArticle', response.data)
+
+        })
+        .catch( err => {
+          console.log(err)
+        })
+      }
+      else {
+        // create new article
+        axios.post('http://localhost:3000/api/articles', {
+          title: article.title,
+          content: article.content,
+          category: article.category
+        }, {
+          headers: {token: localStorage.token }
+        })
+        .then( response => {
+          console.log("*** writeNewArticle")
+          console.log(response.data)
+
+          commit('addArticle', response.data)
+        })
+        .catch( err => {
+          console.log(err)
+        })
+
+
+      }
+
+    },
+    deleteArticle({commit}, article) {
+
+      axios.delete(`http://localhost:3000/api/articles/${article._id}`, {
+        headers: {token: localStorage.token }
+      })
+      .then( response => {
+        console.log("*** deleteArticle")
+        console.log(response.data)
+
+        commit('deleteArticle', response.data)
+      })
+      .catch( err => {
+        console.log(err)
+      })
+
+    }
   } // end of actions
 
 })
