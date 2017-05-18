@@ -1,7 +1,9 @@
 var User = require('../models/user')
 var passwordHash = require('password-hash')
+var jwt = require('jsonwebtoken')
 
-exports.create = (req, res, next) => {
+
+exports.signup = (req, res, next) => {
   req.body.password = passwordHash.generate(req.body.password)
 
   User.create(req.body, (err, user) => {
@@ -11,6 +13,30 @@ exports.create = (req, res, next) => {
       res.send(user)
     }
   })
+}
+
+exports.signin = (req, res, next) => {
+  console.log('signin', req.user)
+
+  let user = req.user
+  var token = jwt.sign(
+  {
+    _id: user._id,
+    name: user.name,
+    username: user.username,
+  },
+  process.env.TOKEN_SECRET,
+  { expiresIn: '1h' }
+);
+
+  let userObj = {
+    _id: user._id,
+    name: user.name,
+    username: user.username,
+    token: token
+  }
+
+  res.send(userObj)
 }
 
 exports.getAll = (req, res, next) => {
