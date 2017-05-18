@@ -16,7 +16,7 @@ const store = new Vuex.Store({
       token: ''
     },
     is_login: false,
-    articles: []
+    articles: [{author: {name:'', username:''}}]
   },
   getters: {
     getMessage(state) {

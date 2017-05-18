@@ -10,9 +10,6 @@
       Home
     </router-link>
 
-    <a class="item">
-      Messages
-    </a>
     <router-link
       v-if="is_login"
       to="articleform"

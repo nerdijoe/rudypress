@@ -18,7 +18,15 @@ exports.create = (req, res, next) => {
   newArticle.save( (err, article) => {
     if(err) res.send(err)
     else {
-      res.send(article)
+      // res.send(article)
+      Article.findById(article._id)
+      .populate("author")
+      .exec( (err, a) => {
+        if(err) res.send(err)
+        else {
+          res.send(a)
+        }
+      })
     }
   })
 }
