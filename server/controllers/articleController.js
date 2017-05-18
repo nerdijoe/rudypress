@@ -68,9 +68,26 @@ exports.update = (req, res, next) => {
       else {
         // author is not the signed in user
         // cannot edit
-        res.send({message: "Sorry, You cannot edit. You are not the author of this article"})
+        res.send({message: "Sorry, You cannot edit this article. You are not the author of this article"})
       }
     }
   })
+}
 
+exports.delete = (req, res, next) => {
+  let user = req.decoded;
+
+  Article.findById(req.params.id, (err, article) => {
+    if(err) res.send(err)
+    else {
+      if(article.author == user._id) {
+        // can delete
+      }
+      else {
+        // author is not the signed in user
+        // cannot edit
+        res.send({message: "Sorry, You cannot delete this article. You are not the author of this article"})
+      }
+    }
+  })
 }
