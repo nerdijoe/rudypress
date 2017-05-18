@@ -82,6 +82,12 @@ exports.delete = (req, res, next) => {
     else {
       if(article.author == user._id) {
         // can delete
+        Article.findByIdAndRemove(article._id, (err, deletedArticle) => {
+          if(err) res.send(err)
+          else{
+            res.send(deletedArticle);
+          }
+        })
       }
       else {
         // author is not the signed in user
