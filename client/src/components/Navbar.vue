@@ -28,14 +28,21 @@
         Sign in
       </router-link>
 
-      <a class="ui item">
+      <router-link
+        v-if="!is_login"
+        to="signup"
+        class="ui item"
+        active-class="active"
+        exact
+      >
         Sign up
-      </a>
+      </router-link>
 
 
 
-      <a class="ui item">
-        Logout
+
+      <a class="ui item" v-if="is_login" @click="clickSignout">
+        Sign out
       </a>
     </div>
   </div>
@@ -52,7 +59,13 @@ export default {
     is_login: 'getLoginStatus'
   }),
   methods: {
-
+    ...mapActions([
+      'userSignout'
+    ]),
+    clickSignout() {
+      console.log('clickSignout')
+      this.userSignout()
+    }
   },
   created() {
 

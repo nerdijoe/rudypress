@@ -1,6 +1,6 @@
 <template>
   <div class="">
-
+    <h2>Home</h2>
     <div class="" v-if="is_login">
       Hello {{user.name}}!
     </div>

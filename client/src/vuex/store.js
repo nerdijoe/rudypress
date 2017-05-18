@@ -36,6 +36,18 @@ const store = new Vuex.Store({
       state.is_login = true
 
       console.log('setSigninStuff', state.user)
+    },
+    clearSigninInfo(state) {
+      state.user = {
+        _id: null,
+        name: '',
+        username: '',
+        token: ''
+      }
+
+      state.is_login = false
+
+      console.log("clearSigninInfo", state.user)
     }
   },
   actions: {
@@ -48,6 +60,9 @@ const store = new Vuex.Store({
       .then( response => {
         console.log("*** userSignin")
         console.log(response.data)
+
+        console.log("typeof response.data", typeof response.data)
+        // if(typeof response.data )
 
         // set to localStorage
         localStorage.setItem('token', response.data.token)
@@ -67,7 +82,34 @@ const store = new Vuex.Store({
       if(localStorage.token != null){
         commit('setSigninStuff')
       }
-    }
+    },
+    userSignup({commit}, user) {
+      axios.post('http://localhost:3000/api/users/signup', {
+        name: user.name,
+        username: user.username,
+        password: user.password
+      })
+      .then( response => {
+        console.log("*** userSignup")
+        console.log(response.data)
+
+      })
+      .catch( err => {
+        console.log(err)
+      })
+    },
+    userSignout({commit}) {
+      console.log('userSignout')
+
+
+      localStorage.removeItem('token');
+      localStorage.removeItem('_id');
+      localStorage.removeItem('name');
+      localStorage.removeItem('username');
+
+      commit('clearSigninInfo')
+    },
+    fetch
   } // end of actions
 
 })
