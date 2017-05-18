@@ -33,3 +33,44 @@ exports.getAll = (req, res, next) => {
     }
   })
 }
+
+exports.getOne = (req, res, next) => {
+  Article.findById(req.params.id)
+  .populate("author")
+  .exec( (err, article) => {
+    if(err) res.send(err)
+    else {
+      res.send(article)
+    }
+  })
+}
+
+exports.update = (req, res, next) => {
+  // author must be the same as the signed in user
+  let user = req.decoded;
+
+  Article.findById(req.params.id, (err, article) => {
+    if(err) res.send(err)
+    else {
+      if(article.author == user._id) {
+        //edit
+        article.title = req.body.title || article.title;
+        article.content = req.body.content || article.content;
+        article.category = req.body.category || article.category;
+
+        article.save( (err, updatedArticle) => {
+          if(err) res.send(err)
+          else {
+            res.send(updatedArticle);
+          }
+        })
+      }
+      else {
+        // author is not the signed in user
+        // cannot edit
+        res.send({message: "Sorry, You cannot edit. You are not the author of this article"})
+      }
+    }
+  })
+
+}

@@ -27,6 +27,7 @@ npm start
 
 ### Users
 
+Fields
 ```
 name, username, password
 ```
@@ -48,6 +49,7 @@ GET localhost:3000/api/users
 
 ### Articles
 
+Fields
 ```
 title, content, category, author(ref: User)
 ```

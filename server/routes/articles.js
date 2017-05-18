@@ -3,7 +3,10 @@ var router = express.Router();
 var articleController = require('../controllers/articleController');
 var jwtAuth = require('../helpers/jwtAuth');
 
-router.get('/', articleController.getAll)
-router.post('/', jwtAuth.verifyUser, articleController.create)
+router.get('/', articleController.getAll);
+router.get('/:id', articleController.getOne);
+router.post('/', jwtAuth.verifyUser, articleController.create);
+router.put('/:id', jwtAuth.verifyUser, articleController.update);
+
 
 module.exports = router
