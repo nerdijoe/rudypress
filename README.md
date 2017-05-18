@@ -49,11 +49,12 @@ GET localhost:3000/api/users
 
 ### Articles
 
+**Notes:** Article Create, Update, Delete needs signin token
+
 Fields
 ```
 title, content, category, author(ref: User)
 ```
-
 
 #### Create new article
 ```
@@ -63,4 +64,14 @@ POST localhost:3000/api/articles
 #### Get all articles
 ```
 GET localhost:3000/api/articles
+```
+
+#### Update article
+```
+PUT localhost:3000/api/articles/[id]
+```
+
+#### Delete article
+```
+DELETE localhost:3000/api/articles/[id]
 ```
