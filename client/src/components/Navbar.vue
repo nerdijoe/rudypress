@@ -1,9 +1,15 @@
 <template>
 
   <div class="ui secondary  menu">
-    <a class="active item">
+    <router-link
+      to="/"
+      class="ui item"
+      active-class="active"
+      exact
+    >
       Home
-    </a>
+    </router-link>
+
     <a class="item">
       Messages
     </a>
@@ -11,9 +17,17 @@
       Friends
     </a>
     <div class="right menu">
-      <a class="ui item">
+
+      <router-link
+        v-if="!is_login"
+        to="signin"
+        class="ui item"
+        active-class="active"
+        exact
+      >
         Sign in
-      </a>
+      </router-link>
+
       <a class="ui item">
         Sign up
       </a>
@@ -30,7 +44,19 @@
 </template>
 
 <script>
+import {mapGetters, mapActions} from 'vuex'
+
 export default {
+  computed: mapGetters({
+    user: 'getUser',
+    is_login: 'getLoginStatus'
+  }),
+  methods: {
+
+  },
+  created() {
+
+  }
 }
 </script>
 

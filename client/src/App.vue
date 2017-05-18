@@ -11,10 +11,20 @@
 <script>
 import Navbar from '@/components/Navbar'
 
+import {mapGetters, mapActions} from 'vuex'
+
 export default {
   name: 'app',
   components: {
     Navbar
+  },
+  methods: {
+    ...mapActions([
+      'checkTokenfromLocalStorage'
+    ])
+  },
+  created() {
+    this.checkTokenfromLocalStorage();
   }
 }
 </script>

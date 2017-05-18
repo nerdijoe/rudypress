@@ -1,15 +1,27 @@
 <template>
   <div class="">
-    {{message}}
+
+    <div class="" v-if="is_login">
+      Hello {{user.name}}!
+    </div>
+
   </div>
 </template>
 
 <script>
-import {mapGetters} from 'vuex'
+import {mapGetters, mapActions} from 'vuex'
+
 export default {
   computed: mapGetters({
-    message: 'getMessage'
-  })
+    message: 'getMessage',
+    user: 'getUser',
+    is_login: 'getLoginStatus'
+  }),
+  methods: {
+    ...mapActions([
+
+    ])
+  }
 }
 </script>
 

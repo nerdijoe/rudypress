@@ -1,8 +1,10 @@
 var express = require('express');
-var bodyParser = require('body-parser')
-var passport = require('passport')
-var Strategy = require('passport-local').Strategy
-var passwordHash = require('password-hash')
+var bodyParser = require('body-parser');
+var passport = require('passport');
+var Strategy = require('passport-local').Strategy;
+var passwordHash = require('password-hash');
+var cors = require('cors');
+
 require('dotenv').config();
 
 
@@ -38,9 +40,9 @@ mongoose.connect(mongoDbConfig, (err, res) => {
 })
 
 
-app.use(bodyParser.json())
-app.use(bodyParser.urlencoded({ extended: false }))
-
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(cors());
 
 app.use('/', index);
 app.use('/api/users', users);

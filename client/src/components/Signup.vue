@@ -1,5 +1,5 @@
 <template>
-  <form class="ui form" @submit.prevent="submitSignin">
+  <form class="ui form" @submit.prevent="submitSignup">
     <div class="field">
       <label>Username</label>
       <input type="text" name="first-name" placeholder="Username" v-model="userForm.username">
@@ -15,30 +15,19 @@
 </template>
 
 <script>
-import { mapGetters, mapActions } from 'vuex'
-
 export default {
   data() {
     return {
       userForm: {
-        username: "",
-        password: ""
+        name: '',
+        username: '',
+        pasword: ''
       }
     }
   },
   methods: {
-    ...mapActions([
-      'userSignin'
-    ]),
-    submitSignin() {
-      console.log("submitSignin")
-
-      console.log(this.userForm);
-
-      this.userSignin(this.userForm);
-
-      this.$router.push('/')
-
+    submitSignup() {
+      console.log("submitSignup")
     }
   }
 }
